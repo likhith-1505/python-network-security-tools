@@ -2,7 +2,7 @@
 
 import argparse
 import subprocess
-
+import re
 def change_mac(interface,new_mac):
     print(f"[+] The mac address of {interface} is changed to {new_mac}")
 
@@ -33,5 +33,17 @@ def get_arguments():
 
 args = get_arguments()
 change_mac(args.interface,args.mac)
+result = subprocess.check_output(
+    ["ip", "addr", "show", args.interface],
+    text=True
+)
+current_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w",result)
 
-
+if current_mac:
+    if current_mac.group(0) == args.mac:
+        print(f"[+] Mac changed successfully")
+    else:
+        print(f"[-] Mac address is not changed")
+else:
+    print("Mac address can't be read")
+    
