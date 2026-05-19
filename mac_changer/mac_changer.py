@@ -28,22 +28,21 @@ def get_arguments():
         "-m","--mac",required=True,help="New Mac address"
     )
     return parser.parse_args()
+def current_mac(interface,expected_mac):
+    result = subprocess.check_output(
+    ["ip", "addr", "show", args.interface],
+    text=True
+    )
+    currentmac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w",result)
 
-
+    if currentmac:
+        if currentmac.group(0) == args.mac:
+            print(f"[+] Mac changed successfully")
+        else:
+            print(f"[-] Mac address is not changed")
+    else:
+        print("Mac address can't be read")
 
 args = get_arguments()
 change_mac(args.interface,args.mac)
-result = subprocess.check_output(
-    ["ip", "addr", "show", args.interface],
-    text=True
-)
-current_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w",result)
-
-if current_mac:
-    if current_mac.group(0) == args.mac:
-        print(f"[+] Mac changed successfully")
-    else:
-        print(f"[-] Mac address is not changed")
-else:
-    print("Mac address can't be read")
-    
+current_mac(args.interface,args.mac)
