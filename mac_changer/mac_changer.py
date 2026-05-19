@@ -17,19 +17,21 @@ def change_mac(interface,new_mac):
     subprocess.run([
         "sudo","ip","link","set","dev",interface,"up"
         ],check=True)
-
-
-
-parser = argparse.ArgumentParser(
-    description="Mac changer"
+def get_arguments():
+    parser = argparse.ArgumentParser(
+        description="Mac changer"
     )
-parser.add_argument(
-    "-i","--interface",required=True,help="Interface name"
-)
-parser.add_argument(
-    "-m","--mac",required=True,help="New Mac address"
-)
-args = parser.parse_args()
+    parser.add_argument(
+        "-i","--interface",required=True,help="Interface name"
+    )
+    parser.add_argument(
+        "-m","--mac",required=True,help="New Mac address"
+    )
+    return parser.parse_args()
+
+
+
+args = get_arguments()
 change_mac(args.interface,args.mac)
 
 
