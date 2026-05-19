@@ -1,9 +1,20 @@
 #! usr/bin/env python3
 
+import argparse
 import subprocess
 
-interface = input("Enter the interface ")
-new_mac = input("Enter the new mac address ")
+parser = argparse.ArgumentParser(
+    description="Mac changer"
+    )
+parser.add_argument(
+    "-i","--interface",required=True,help="Interface name"
+)
+parser.add_argument(
+    "-m","--mac",required=True,help="New Mac address"
+)
+args = parser.parse_args()
+interface = args.interface
+new_mac = args.mac
 
 print(f"[+] The mac address of {interface} is changed to {new_mac}")
 
