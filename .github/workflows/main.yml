@@ -29,4 +29,4 @@ jobs:
 
     - name: Check Python syntax
       run: |
-        python -m py_compile mac_changer.py
+        python -m py_compile mac_changer/mac_changer.py
